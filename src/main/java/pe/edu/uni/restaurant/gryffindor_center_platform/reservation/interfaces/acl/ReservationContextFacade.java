@@ -30,7 +30,7 @@ public class ReservationContextFacade {
 
         // Validar el `userNationalProviderIdentifier`
         if (!userACL.isValidUserCode(userCode)) {
-            throw new IllegalArgumentException("Invalid userNationalProviderIdentifier: User does not exist");
+            throw new IllegalArgumentException("Invalid userNationalProviderIdentifier: Mesa does not exist");
         }
 
         // Crear el comando

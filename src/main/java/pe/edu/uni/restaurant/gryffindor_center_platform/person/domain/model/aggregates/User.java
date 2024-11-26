@@ -21,28 +21,28 @@ import java.util.UUID;
 public class User extends AuditableAbstractAggregateRoot<User> {
 
     /**
-     * User Code
+     * Mesa Code
      */
     @NotNull
     @Column(name = "user_code", unique = true, nullable = false)
     private UUID userCode;
 
     /**
-     * User First Name
+     * Mesa First Name
      */
     @NotNull
     @Column(name = "first_name", unique = true, nullable = false)
     private String firstName;
 
     /**
-     * User Last Name
+     * Mesa Last Name
      */
     @NotNull
     @Column(name = "last_name", unique = true, nullable = false)
     private String lastName;
 
     /**
-     * User Role
+     * Mesa Status
      */
     @NotNull
     @Column(name = "role", unique = true, nullable = false)

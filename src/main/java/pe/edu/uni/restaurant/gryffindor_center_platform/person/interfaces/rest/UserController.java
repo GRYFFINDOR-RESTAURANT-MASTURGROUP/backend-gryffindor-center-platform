@@ -20,7 +20,7 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.person.interfaces.rest.t
 @CrossOrigin(origins = "*", methods = { RequestMethod.POST})
 @RestController
 @RequestMapping(value = "/api/v1/users", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Users", description = "User Endpoints")
+@Tag(name = "Users", description = "Mesa Endpoints")
 public class UserController {
     private final UserCommandService userCommandService;
     private final UserQueryService userQueryService;

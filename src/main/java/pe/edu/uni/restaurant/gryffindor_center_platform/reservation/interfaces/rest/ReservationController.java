@@ -56,7 +56,7 @@ public class ReservationController {
 
         if (!userACL.isValidUserCode(userCodeUser)) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-                    .body("Invalid userCodeUser: User does not exist");
+                    .body("Invalid userCodeUser: Mesa does not exist");
         }
 
         var createReservationCommand = CreateReservationCommandFromResourceAssembler
