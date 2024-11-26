@@ -6,7 +6,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.uni.restaurant.gryffindor_center_platform.person.application.internal.outboundservices.acl.UserACL;
-import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.aggregates.Reservation;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.commands.DeleteReservationCommand;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.queries.GetAllReservationQuery;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.queries.GetReservationByIdQuery;
@@ -63,13 +62,13 @@ public class ReservationController {
         var createReservationCommand = CreateReservationCommandFromResourceAssembler
                 .toCommandFromResource(resource);
 
-        var reservationId = this.reservationCommandService.handle(createReservationCommand);
+        var id = this.reservationCommandService.handle(createReservationCommand);
 
-        if (reservationId.equals(0L)) {
+        if (id.equals(0L)) {
             return ResponseEntity.badRequest().body("Failed to create reservation.");
         }
 
-        var getReservationByIdQuery = new GetReservationByIdQuery(reservationId);
+        var getReservationByIdQuery = new GetReservationByIdQuery(id);
         var optionalReservation = this.reservationQueryService.handle(getReservationByIdQuery);
 
         if (optionalReservation.isEmpty()) {
@@ -104,9 +103,9 @@ public class ReservationController {
         return ResponseEntity.ok(reservationResources);
     }
 
-    @PutMapping("/{reservationId}")
-    public ResponseEntity<ReservationResource> updateReservation(@PathVariable Long reservationId, @RequestBody ReservationResource resource) {
-        var updateReservationCommand = UpdateReservationCommandFromResourceAssembler.toCommandFromResource(reservationId, resource);
+    @PutMapping("/{id}")
+    public ResponseEntity<ReservationResource> updateReservation(@PathVariable Long id, @RequestBody ReservationResource resource) {
+        var updateReservationCommand = UpdateReservationCommandFromResourceAssembler.toCommandFromResource(id, resource);
         var optionalReservation = this.reservationCommandService.handle(updateReservationCommand);
 
         if (optionalReservation.isEmpty())
@@ -115,9 +114,9 @@ public class ReservationController {
         return ResponseEntity.ok(reservationResource);
     }
 
-    @DeleteMapping("/{reservationId}")
-    public ResponseEntity<?> deleteReservation(@PathVariable Long reservationId) {
-        var deleteReservationCommand = new DeleteReservationCommand(reservationId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteReservation(@PathVariable Long id) {
+        var deleteReservationCommand = new DeleteReservationCommand(id);
         this.reservationCommandService.handle(deleteReservationCommand);
         return ResponseEntity.noContent().build();
     }

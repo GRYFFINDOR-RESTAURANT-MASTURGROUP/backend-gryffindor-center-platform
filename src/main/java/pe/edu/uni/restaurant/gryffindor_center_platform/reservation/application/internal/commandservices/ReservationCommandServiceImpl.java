@@ -32,14 +32,14 @@ public class ReservationCommandServiceImpl implements ReservationCommandService 
 
     @Override
     public Optional<Reservation> handle(UpdateReservationCommand command) {
-        var reservationId = command.id();
+        var id = command.id();
 
         // If the reservation does not exist, throw an exception
-        if (!this.reservationRepository.existsById(reservationId)) {
-            throw new IllegalArgumentException("Reservation with id " + reservationId + " does not exist");
+        if (!this.reservationRepository.existsById(id)) {
+            throw new IllegalArgumentException("Reservation with id " + id + " does not exist");
         }
 
-        var reservationToUpdate = this.reservationRepository.findById(reservationId).get();
+        var reservationToUpdate = this.reservationRepository.findById(id).get();
         reservationToUpdate.updateInformation(command.reservedId(),
                 command.userCode(), command.startDate(), command.endDate(), command.customerQuantity(), command.status());
 
