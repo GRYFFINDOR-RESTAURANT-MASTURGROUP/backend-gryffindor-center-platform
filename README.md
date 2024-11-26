@@ -2,5 +2,5 @@
 Backend For Gryffindor Center Platform
 
 
-# Run Open Api For Testing The Endpoints
+# run Open Api for testing the endpoints
 http://localhost:8080/swagger-ui/index.html#/
