@@ -7,10 +7,12 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.interfaces.r
 public class UpdateReservationCommandFromResourceAssembler {
   public static UpdateReservationCommand toCommandFromResource(Long id, ReservationResource resource) {
     return new UpdateReservationCommand(id, resource.reservedId(),
-            resource.userCode(),
-            resource.startDate(),
-            resource.endDate(),
+            resource.codigoUsuario(),
+            resource.fechaReserva(),
+            resource.horaReserva(),
             resource.customerQuantity(),
-            resource.status());
+            resource.status(),
+            resource.nombreCompletoUsuario(),
+            resource.correoUsuario());
   }
 }

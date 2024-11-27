@@ -2,5 +2,5 @@ package pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.mode
 
 import java.util.UUID;
 
-public record GetReservationByUUIDQuery(UUID userCode) {
+public record GetReservationByUUIDQuery(UUID codigoUsuario) {
 }

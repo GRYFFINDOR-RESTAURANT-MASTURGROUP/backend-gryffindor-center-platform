@@ -8,9 +8,11 @@ public class CreateReservationCommandFromResourceAssembler {
     public static CreateReservationCommand toCommandFromResource(CreateReservationResource resource){
         return new CreateReservationCommand(resource.reservedId(),
                 resource.userCode(),
-                resource.startDate(),
-                resource.endDate(),
+                resource.fechaReserva(),
+                resource.horaReserva(),
                 resource.customerQuantity(),
-                resource.status());
+                resource.status(),
+                resource.nombreCompletoUsuario(),
+                resource.correoUsuario());
     }
 }

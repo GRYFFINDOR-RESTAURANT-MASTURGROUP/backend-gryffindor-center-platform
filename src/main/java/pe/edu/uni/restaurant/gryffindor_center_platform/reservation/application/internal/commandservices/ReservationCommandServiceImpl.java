@@ -41,7 +41,8 @@ public class ReservationCommandServiceImpl implements ReservationCommandService 
 
         var reservationToUpdate = this.reservationRepository.findById(id).get();
         reservationToUpdate.updateInformation(command.reservedId(),
-                command.userCode(), command.startDate(), command.endDate(), command.customerQuantity(), command.status());
+                command.codigoUsuario(), command.fechaReserva(), command.horaReserva(), command.customerQuantity(), command.status(),
+                command.nombreCompletoUsuario(),command.correoUsuario());
 
         try {
             var updatedReservation = this.reservationRepository.save(reservationToUpdate);

@@ -10,5 +10,9 @@ import java.util.UUID;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
-    Optional<Reservation> findByUserCode(UUID userCode);
+    Optional<Reservation> findByCodigoUsuario(UUID codigoUsuario);
+    
+    Optional<Reservation> findByNombreCompletoUsuario(String nombreCompletoUsuario);
+
+    Optional<Reservation> findByCorreoUsuario(String correoUsuario);
 }

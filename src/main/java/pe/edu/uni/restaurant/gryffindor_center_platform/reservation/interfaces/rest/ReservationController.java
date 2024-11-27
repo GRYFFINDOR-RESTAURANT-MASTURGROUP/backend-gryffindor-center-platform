@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pe.edu.uni.restaurant.gryffindor_center_platform.person.application.internal.outboundservices.acl.UserACL;
+import pe.edu.uni.restaurant.gryffindor_center_platform.persona.application.internal.outboundservices.acl.UserACL;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.commands.DeleteReservationCommand;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.queries.GetAllReservationQuery;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.queries.GetReservationByIdQuery;
@@ -49,7 +49,7 @@ public class ReservationController {
      * @param resource the resource containing reservation details
      * @return the created reservation
      */
-    @PostMapping
+    @PostMapping("/adding-reservations")
     public ResponseEntity<?> createReservation(@RequestBody CreateReservationResource resource) {
 
         UUID userCodeUser = resource.userCode();
@@ -87,7 +87,7 @@ public class ReservationController {
      *
      * @return a list of reservation resources
      */
-    @GetMapping
+    @GetMapping("/all-reservations")
     public ResponseEntity<List<ReservationResource>> getAllReservations() {
         var getAllReservationQuery = new GetAllReservationQuery();
         var reservations = this.reservationQueryService.handle(getAllReservationQuery);

@@ -2,9 +2,7 @@ package pe.edu.uni.restaurant.gryffindor_center_platform.reservation.application
 
 import org.springframework.stereotype.Service;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.aggregates.Reservation;
-import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.queries.GetAllReservationQuery;
-import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.queries.GetReservationByIdQuery;
-import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.queries.GetReservationByUUIDQuery;
+import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.queries.*;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.services.ReservationQueryService;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.infrastructure.persistence.jpa.repositories.ReservationRepository;
 
@@ -21,7 +19,7 @@ public class ReservationQueryServiceImpl implements ReservationQueryService {
 
     @Override
     public Optional<Reservation> handle(GetReservationByUUIDQuery query) {
-        return this.reservationRepository.findByUserCode(query.userCode());
+        return this.reservationRepository.findByCodigoUsuario(query.codigoUsuario());
     }
 
     @Override
@@ -34,4 +32,19 @@ public class ReservationQueryServiceImpl implements ReservationQueryService {
         return this.reservationRepository.findAll();
     }
 
+    /**
+     * Get Reservation By NombreCompletoUsuario Query Implementation
+     */
+    @Override
+    public Optional<Reservation> handle(GetReservationByNombreCompletoUsuarioQuery query) {
+        return this.reservationRepository.findByNombreCompletoUsuario(query.nombreCompletoUsuario());
+    }
+
+    /**
+     * Get Reservation By CorreoUsuario Query Implementation
+     */
+    @Override
+    public Optional<Reservation> handle(GetReservationByCorreoUsuarioQuery query) {
+        return this.reservationRepository.findByCorreoUsuario(query.correoUsuario());
+    }
 }

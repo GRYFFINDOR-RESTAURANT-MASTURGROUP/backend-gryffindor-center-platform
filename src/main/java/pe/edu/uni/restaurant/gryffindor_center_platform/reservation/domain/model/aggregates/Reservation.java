@@ -9,12 +9,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.commands.CreateReservationCommand;
+import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.valueobjects.CodigoUsuario;
+import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.valueobjects.CorreoUsuario;
+import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.valueobjects.NombreCompletoUsuario;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.valueobjects.Status;
-import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.valueobjects.UserCode;
 import pe.edu.uni.restaurant.gryffindor_center_platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 
+import java.sql.Time;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Reservation Aggregate Root
@@ -39,23 +41,23 @@ public class Reservation extends AuditableAbstractAggregateRoot<Reservation> {
      */
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "UserCode", column = @Column(name = "user_code", nullable = false))
+            @AttributeOverride(name = "CodigoUsuario", column = @Column(name = "user_code", nullable = false))
     })
-    private UserCode userCode;
+    private CodigoUsuario codigoUsuario;
 
     /**
      *
      */
     @NotNull
-    @Column(name = "start_date", nullable = false)
-    private Date startDate;
+    @Column(name = "fecha_reserva", nullable = false)
+    private Date fechaReserva;
 
     /**
      *
      */
     @NotNull
     @Column(name = "end_date", nullable = false)
-    private Date endDate;
+    private Time horaReserva;
 
     /**
      *
@@ -83,30 +85,55 @@ public class Reservation extends AuditableAbstractAggregateRoot<Reservation> {
     private PersonType personType;*/
 
     /**
+     * Nombre Completo del usuario
+     */
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "NombreCompletoUsuario", column = @Column(name = "nombre_completo_usuario", nullable = false))
+    })
+    private NombreCompletoUsuario nombreCompletoUsuario;
+
+    /**
+     * Correo del usuario
+     */
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "CorreoUsuario", column = @Column(name = "correo_usuario", nullable = false))
+    })
+    private CorreoUsuario correoUsuario;
+
+
+    /**
      * Constructor
      *
      */
     public Reservation(CreateReservationCommand command){
         this.reservedId = command.reservedId();
-        this.userCode = new UserCode(command.userCode());
-        this.startDate = command.startDate();
-        this.endDate = command.endDate();
+        this.codigoUsuario = new CodigoUsuario(command.userCode());
+        this.fechaReserva = command.fechaReserva();
+        this.horaReserva = command.horaReserva();
         this.customerQuantity = command.customerQuantity();
         this.status = command.status();
+        this.nombreCompletoUsuario = new NombreCompletoUsuario(command.nombreCompletoUsuario());
+        this.correoUsuario = new CorreoUsuario(command.correoUsuario());
     }
 
     public Reservation updateInformation(Long reservedId,
-                                         UserCode userCode,
-                                         Date startDate,
-                                         Date endDate,
+                                         CodigoUsuario codigoUsuario,
+                                         Date fechaReserva,
+                                         Time horaReserva,
                                          int customerQuantity,
-                                         Status status) {
+                                         Status status,
+                                         NombreCompletoUsuario nombreCompletoUsuario,
+                                         CorreoUsuario correoUsuario) {
         this.reservedId = reservedId;
-        this.userCode = userCode;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.codigoUsuario = codigoUsuario;
+        this.fechaReserva = fechaReserva;
+        this.horaReserva = horaReserva;
         this.customerQuantity = customerQuantity;
         this.status = status;
+        this.nombreCompletoUsuario = nombreCompletoUsuario;
+        this.correoUsuario = correoUsuario;
         return this;
     }
 }

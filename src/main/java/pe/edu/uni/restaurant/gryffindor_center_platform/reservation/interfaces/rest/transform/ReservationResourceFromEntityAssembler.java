@@ -7,10 +7,12 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.interfaces.r
 public class ReservationResourceFromEntityAssembler {
     public static ReservationResource toResourceFromEntity(Reservation entity){
         return new ReservationResource(entity.getId(), entity.getReservedId(),
-                entity.getUserCode(),
-                entity.getStartDate(),
-                entity.getEndDate(),
+                entity.getCodigoUsuario(),
+                entity.getFechaReserva(),
+                entity.getHoraReserva(),
                 entity.getCustomerQuantity(),
-                entity.getStatus());
+                entity.getStatus(),
+                entity.getNombreCompletoUsuario(),
+                entity.getCorreoUsuario());
     }
 }
