@@ -2,6 +2,7 @@ package pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.mode
 
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -61,6 +62,7 @@ public class Reservation extends AuditableAbstractAggregateRoot<Reservation> {
      */
     @NotNull
     @Min(1)
+    @Max(8)
     @Column(name = "customer_quantity")
     private Integer customerQuantity;
 
