@@ -17,7 +17,7 @@ public class UserCommandServiceImpl implements UserCommandService {
     @Override
     public Long handle(CreateUserCommand command) {
         if (userRepository.existsByUserCode(command.userCode())) {
-            throw new IllegalArgumentException("Mesa with this user code already exists");
+            throw new IllegalArgumentException("User with this user code already exists");
         }
         var inventoryItem = new User(command);
         try {

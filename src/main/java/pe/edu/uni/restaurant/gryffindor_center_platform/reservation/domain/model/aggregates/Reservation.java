@@ -34,7 +34,7 @@ public class Reservation extends AuditableAbstractAggregateRoot<Reservation> {
     private Long reservedId;
 
     /**
-     * Mesa code
+     * User code
      */
     @Embedded
     @AttributeOverrides({
