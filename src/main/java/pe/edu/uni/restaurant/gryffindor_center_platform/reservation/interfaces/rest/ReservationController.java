@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pe.edu.uni.restaurant.gryffindor_center_platform.persona.application.internal.outboundservices.acl.UserACL;
+import pe.edu.uni.restaurant.gryffindor_center_platform.persona.application.internal.outboundservices.acl.TestingUserACL;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.commands.DeleteReservationCommand;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.queries.GetAllReservationQuery;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.queries.GetReservationByIdQuery;
@@ -22,9 +22,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
- * REST controller that provides endpoints for managing order items.
+ * REST controller that provides endpoints for managing reservations.
  */
-@CrossOrigin(origins = "*", methods = {RequestMethod.POST, RequestMethod.GET})
+@CrossOrigin(origins = "**", methods = {RequestMethod.POST, RequestMethod.GET})
 @RestController
 @RequestMapping(value = "/api/v1/reservations", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Reservations", description = "Reservations Endpoints")
@@ -32,15 +32,15 @@ public class ReservationController {
 
     private final ReservationCommandService reservationCommandService;
     private final ReservationQueryService reservationQueryService;
-    private final UserACL userACL;
+    private final TestingUserACL testingUserACL;
 
     public ReservationController(
             ReservationCommandService reservationCommandService,
             ReservationQueryService reservationQueryService,
-            UserACL userACL) {
+            TestingUserACL testingUserACL) {
         this.reservationCommandService = reservationCommandService;
         this.reservationQueryService = reservationQueryService;
-        this.userACL = userACL;
+        this.testingUserACL = testingUserACL;
     }
 
     /**
@@ -54,9 +54,9 @@ public class ReservationController {
 
         UUID userCodeUser = resource.userCode();
 
-        if (!userACL.isValidUserCode(userCodeUser)) {
+        if (!testingUserACL.isValidUserCode(userCodeUser)) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-                    .body("Invalid userCodeUser: User does not exist");
+                    .body("Invalid userCodeUser: TestingUser does not exist");
         }
 
         var createReservationCommand = CreateReservationCommandFromResourceAssembler

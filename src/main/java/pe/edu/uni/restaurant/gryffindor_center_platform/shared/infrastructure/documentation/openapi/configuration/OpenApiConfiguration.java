@@ -13,19 +13,19 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class OpenApiConfiguration {
     @Bean
-    public OpenAPI NidoUrbanoPlatformOpenApi() {
+    public OpenAPI GryffindorRestaurantCenterPlatformOpenApi() {
         // General configuration
         var openApi = new OpenAPI();
         openApi
                 .info(new Info()
-                        .title("Nido Urbano Platform API")
-                        .description("Nido Urbano Platform application REST API documentation.")
+                        .title("Gryffindor Restaurant Center Platform API")
+                        .description("Gryffindor Restaurant Center application REST API documentation.")
                         .version("v1.1.0")
                         .license(new License().name("Apache 2.0")
                                 .url("https://springdoc.org")))
                 .externalDocs(new ExternalDocumentation()
-                        .description("Nido Urbano Platform Documentation")
-                        .url("https://github.com/orgs/SI729-2402-WS51-Grupo-3-Nido-Urbano/repositories"));
+                        .description("NGryffindor Restaurant Center Platform Documentation")
+                        .url("https://github.com/orgs/RESTAURANTE-GRYFFINDOR-RESERVACIONES/repositories"));
         // Add security scheme
         final String securitySchemeName = "bearerAuth";
 

@@ -1,7 +1,7 @@
 package pe.edu.uni.restaurant.gryffindor_center_platform.reservation.interfaces.acl;
 
 import org.springframework.stereotype.Service;
-import pe.edu.uni.restaurant.gryffindor_center_platform.persona.application.internal.outboundservices.acl.UserACL;
+import pe.edu.uni.restaurant.gryffindor_center_platform.persona.application.internal.outboundservices.acl.TestingUserACL;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.commands.CreateReservationCommand;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.valueobjects.Status;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.services.ReservationCommandService;
@@ -14,12 +14,12 @@ import java.util.UUID;
 @Service
 public class ReservationContextFacade {
     private final ReservationCommandService reservationCommandService;
-    private final UserACL userACL;
+    private final TestingUserACL testingUserACL;
 
     public ReservationContextFacade(ReservationCommandService reservationCommandService,
-                                    UserACL userACL) {
+                                    TestingUserACL userACL) {
         this.reservationCommandService = reservationCommandService;
-        this.userACL = userACL;
+        this.testingUserACL = userACL;
     }
 
     public Long createReservation(Long reservedId,
@@ -32,8 +32,8 @@ public class ReservationContextFacade {
                                   String correoUsuario) {
 
         // Validar el `userNationalProviderIdentifier`
-        if (!userACL.isValidUserCode(CodigoUsuario)) {
-            throw new IllegalArgumentException("Invalid userNationalProviderIdentifier: User does not exist");
+        if (!testingUserACL.isValidUserCode(CodigoUsuario)) {
+            throw new IllegalArgumentException("Invalid userNationalProviderIdentifier: TestingUser does not exist");
         }
 
         // Crear el comando
