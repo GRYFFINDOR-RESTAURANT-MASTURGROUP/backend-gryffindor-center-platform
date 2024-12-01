@@ -18,7 +18,7 @@ import java.sql.Time;
 import java.util.Date;
 
 /**
- * Reservation Aggregate Root
+ * Entidad Reservación
  */
 @Entity
 @Table(name = "reservations")
