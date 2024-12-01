@@ -4,5 +4,5 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.iam.domain.model.entitie
 
 import java.util.List;
 
-public record SignUpCommand(String username, /*String dni,*/ String password, List<Role> roles) {
+public record SignUpCommand(String userName, /*String dni,*/ String password, List<Role> roles) {
 }

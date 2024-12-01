@@ -49,13 +49,13 @@ public class UserCommandServiceImpl implements UserCommandService {
    */
   @Override
   public Optional<ImmutablePair<User, String>> handle(SignInCommand command) {
-    var user = userRepository.findByUsername(command.username());
+    var user = userRepository.findByUserName(command.userName());
     if (user.isEmpty())
       throw new RuntimeException("TestingUser not found");
     if (!hashingService.matches(command.password(), user.get().getPassword()))
       throw new RuntimeException("Invalid password");
 
-    var token = tokenService.generateToken(user.get().getUsername());
+    var token = tokenService.generateToken(user.get().getUserName());
     return Optional.of(ImmutablePair.of(user.get(), token));
   }
 
@@ -69,15 +69,15 @@ public class UserCommandServiceImpl implements UserCommandService {
    */
   @Override
   public Optional<User> handle(SignUpCommand command) {
-    if (userRepository.existsByUsername(command.username()))
+    if (userRepository.existsByUserName(command.userName()))
       throw new RuntimeException("Username already exists");
     var roles = command.roles().stream()
         .map(role ->
             roleRepository.findByName(role.getName())
                 .orElseThrow(() -> new RuntimeException("Role name not found")))
         .toList();
-    var user = new User(command.username(), /*command.dni(),*/ hashingService.encode(command.password()), roles);
+    var user = new User(command.userName(), /*command.dni(),*/ hashingService.encode(command.password()), roles);
     userRepository.save(user);
-    return userRepository.findByUsername(command.username());
+    return userRepository.findByUserName(command.userName());
   }
 }

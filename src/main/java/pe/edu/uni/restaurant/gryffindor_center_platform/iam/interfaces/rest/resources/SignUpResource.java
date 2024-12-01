@@ -2,6 +2,6 @@ package pe.edu.uni.restaurant.gryffindor_center_platform.iam.interfaces.rest.res
 
 import java.util.List;
 
-public record SignUpResource(String username, /*String dni,*/ String password, List<String> roles) {
+public record SignUpResource(String userName, /*String dni,*/ String password, List<String> roles) {
 }
 

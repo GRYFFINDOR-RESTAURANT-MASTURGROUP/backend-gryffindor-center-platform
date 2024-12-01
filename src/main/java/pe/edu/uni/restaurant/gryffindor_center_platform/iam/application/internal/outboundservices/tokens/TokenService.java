@@ -8,17 +8,17 @@ public interface TokenService {
 
   /**
    * Generate a token for a given username
-   * @param username the username
+   * @param userName the username
    * @return String the token
    */
-  String generateToken(String username);
+  String generateToken(String userName);
 
   /**
    * Extract the username from a token
    * @param token the token
-   * @return String the username
+   * @return String the userName
    */
-  String getUsernameFromToken(String token);
+  String getUserNameFromToken(String token);
 
   /**
    * Validate a token

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import pe.edu.uni.restaurant.gryffindor_center_platform.iam.domain.model.aggregates.User;
 import pe.edu.uni.restaurant.gryffindor_center_platform.iam.domain.model.queries.GetAllUsersQuery;
 import pe.edu.uni.restaurant.gryffindor_center_platform.iam.domain.model.queries.GetUserByIdQuery;
-import pe.edu.uni.restaurant.gryffindor_center_platform.iam.domain.model.queries.GetUserByUsernameQuery;
+import pe.edu.uni.restaurant.gryffindor_center_platform.iam.domain.model.queries.GetUserByUserNameQuery;
 import pe.edu.uni.restaurant.gryffindor_center_platform.iam.domain.services.UserQueryService;
 import pe.edu.uni.restaurant.gryffindor_center_platform.iam.infrastructure.persistence.jpa.repositories.UserRepository;
 
@@ -50,13 +50,13 @@ public class UserQueryServiceImpl implements UserQueryService {
   }
 
   /**
-   * This method is used to handle {@link GetUserByUsernameQuery} query.
-   * @param query {@link GetUserByUsernameQuery} instance.
+   * This method is used to handle {@link GetUserByUserNameQuery} query.
+   * @param query {@link GetUserByUserNameQuery} instance.
    * @return {@link Optional} of {@link User} instance.
-   * @see GetUserByUsernameQuery
+   * @see GetUserByUserNameQuery
    */
   @Override
-  public Optional<User> handle(GetUserByUsernameQuery query) {
-    return userRepository.findByUsername(query.username());
+  public Optional<User> handle(GetUserByUserNameQuery query) {
+    return userRepository.findByUserName(query.userName());
   }
 }

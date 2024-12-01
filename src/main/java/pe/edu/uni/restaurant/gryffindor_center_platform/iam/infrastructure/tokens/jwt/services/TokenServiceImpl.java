@@ -82,7 +82,7 @@ public class TokenServiceImpl implements BearerTokenService {
    * @return String the username
    */
   @Override
-  public String getUsernameFromToken(String token) {
+  public String getUserNameFromToken(String token) {
     return extractClaim(token, Claims::getSubject);
   }
 

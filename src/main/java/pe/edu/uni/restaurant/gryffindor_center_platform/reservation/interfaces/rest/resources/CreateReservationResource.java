@@ -9,7 +9,6 @@ import java.util.UUID;
 
 public record CreateReservationResource(
         Long reservedId,
-        UUID userCode,
         Date fechaReserva,
         Time horaReserva,
         Integer customerQuantity,

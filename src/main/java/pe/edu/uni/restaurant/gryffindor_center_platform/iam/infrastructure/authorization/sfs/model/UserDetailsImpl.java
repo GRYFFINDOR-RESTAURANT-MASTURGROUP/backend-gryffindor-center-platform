@@ -53,7 +53,7 @@ public class UserDetailsImpl implements UserDetails {
         .collect(Collectors.toList());
 
     return new UserDetailsImpl(
-            user.getUsername(),
+            user.getUserName(),
             /*user.getDni(),*/
             user.getPassword(),
             authorities);

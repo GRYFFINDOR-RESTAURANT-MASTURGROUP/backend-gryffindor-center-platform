@@ -5,7 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pe.edu.uni.restaurant.gryffindor_center_platform.persona.application.internal.outboundservices.acl.TestingUserACL;
+import pe.edu.uni.restaurant.gryffindor_center_platform.iam.application.internal.outboundservices.acl.UserACL;
+import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.aggregates.Reservation;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.commands.DeleteReservationCommand;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.queries.GetAllReservationQuery;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.queries.GetReservationByIdQuery;
@@ -17,6 +18,10 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.interfaces.r
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.interfaces.rest.transform.ReservationResourceFromEntityAssembler;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.interfaces.rest.transform.UpdateReservationCommandFromResourceAssembler;
 
+import java.sql.Time;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -32,15 +37,15 @@ public class ReservationController {
 
     private final ReservationCommandService reservationCommandService;
     private final ReservationQueryService reservationQueryService;
-    private final TestingUserACL testingUserACL;
+    private final UserACL userACL;
 
     public ReservationController(
             ReservationCommandService reservationCommandService,
             ReservationQueryService reservationQueryService,
-            TestingUserACL testingUserACL) {
+            UserACL userACL) {
         this.reservationCommandService = reservationCommandService;
         this.reservationQueryService = reservationQueryService;
-        this.testingUserACL = testingUserACL;
+        this.userACL = userACL;
     }
 
     /**
@@ -52,11 +57,19 @@ public class ReservationController {
     @PostMapping("/adding-reservations")
     public ResponseEntity<?> createReservation(@RequestBody CreateReservationResource resource) {
 
-        UUID userCodeUser = resource.userCode();
+        String userNameFromUser = resource.nombreCompletoUsuario();
 
-        if (!testingUserACL.isValidUserCode(userCodeUser)) {
+        if (!userACL.isValidUserName(userNameFromUser)) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-                    .body("Invalid userCodeUser: TestingUser does not exist");
+                    .body("Nombre de usuario invalido: El usuario no se " +
+                            "encuentra registrado");
+        }
+
+        // Validate horaReserva format
+        if (!isValidTime(resource.horaReserva())) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body("Hora de Reserva invalida: coloque el formato adecuado " +
+                            "HH:mm:ss");
         }
 
         var createReservationCommand = CreateReservationCommandFromResourceAssembler
@@ -121,6 +134,22 @@ public class ReservationController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Valida si la hora de reserva tiene el formato adecuado.
+     * Además definimos el rango de horas permitidas para realizar una reservación
+     *
+     * @param time the Time object to validate
+     * @return true if the time is valid and within the allowed range, false otherwise
+     */
+    private boolean isValidTime(Time time) {
+        // Se podrá reservar en el rango de horas de 09:00:00 hasta 21:00:00
+        LocalTime startTime = LocalTime.of(9, 0, 0);
+        LocalTime endTime = LocalTime.of(21, 0, 0);
 
+        LocalTime localTime = time.toLocalTime();
+
+        // Verificamos si la hora de la reserva está en el rango permitido
+        return !localTime.isBefore(startTime) && !localTime.isAfter(endTime);
+    }
 }
 

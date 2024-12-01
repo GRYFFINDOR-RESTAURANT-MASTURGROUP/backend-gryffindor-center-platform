@@ -6,6 +6,6 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.iam.interfaces.rest.reso
 public class AuthenticatedUserResourceFromEntityAssembler {
 
   public static AuthenticatedUserResource toResourceFromEntity(User user, String token) {
-    return new AuthenticatedUserResource(user.getId(), user.getUsername(), token);
+    return new AuthenticatedUserResource(user.getId(), user.getUserName(), token);
   }
 }

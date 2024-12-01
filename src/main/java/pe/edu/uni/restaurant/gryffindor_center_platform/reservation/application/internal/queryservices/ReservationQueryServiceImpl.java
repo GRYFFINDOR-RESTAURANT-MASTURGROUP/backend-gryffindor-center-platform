@@ -18,11 +18,6 @@ public class ReservationQueryServiceImpl implements ReservationQueryService {
     }
 
     @Override
-    public Optional<Reservation> handle(GetReservationByUUIDQuery query) {
-        return this.reservationRepository.findByCodigoUsuario(query.codigoUsuario());
-    }
-
-    @Override
     public Optional<Reservation> handle(GetReservationByIdQuery query) {
         return this.reservationRepository.findById(query.id());
     }

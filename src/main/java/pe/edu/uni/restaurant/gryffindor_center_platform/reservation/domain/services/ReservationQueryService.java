@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ReservationQueryService {
-    Optional<Reservation> handle(GetReservationByUUIDQuery query);
     Optional<Reservation> handle(GetReservationByIdQuery query);
     List<Reservation> handle(GetAllReservationQuery query);
     Optional<Reservation> handle(GetReservationByNombreCompletoUsuarioQuery query);

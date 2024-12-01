@@ -8,6 +8,8 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.services.ReservationCommandService;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.infrastructure.persistence.jpa.repositories.ReservationRepository;
 
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.Optional;
 
 @Service
@@ -41,7 +43,7 @@ public class ReservationCommandServiceImpl implements ReservationCommandService 
 
         var reservationToUpdate = this.reservationRepository.findById(id).get();
         reservationToUpdate.updateInformation(command.reservedId(),
-                command.codigoUsuario(), command.fechaReserva(), command.horaReserva(), command.customerQuantity(), command.status(),
+                command.fechaReserva(), command.horaReserva(), command.customerQuantity(), command.status(),
                 command.nombreCompletoUsuario(),command.correoUsuario());
 
         try {

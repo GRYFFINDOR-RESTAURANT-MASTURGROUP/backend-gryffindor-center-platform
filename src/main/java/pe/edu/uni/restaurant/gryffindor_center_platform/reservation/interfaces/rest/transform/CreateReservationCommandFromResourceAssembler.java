@@ -7,7 +7,6 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.interfaces.r
 public class CreateReservationCommandFromResourceAssembler {
     public static CreateReservationCommand toCommandFromResource(CreateReservationResource resource){
         return new CreateReservationCommand(resource.reservedId(),
-                resource.userCode(),
                 resource.fechaReserva(),
                 resource.horaReserva(),
                 resource.customerQuantity(),
