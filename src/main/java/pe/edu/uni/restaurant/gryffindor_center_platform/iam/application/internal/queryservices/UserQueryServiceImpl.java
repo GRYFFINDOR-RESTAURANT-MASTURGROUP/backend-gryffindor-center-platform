@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Implementation of {@link UserQueryService} interface.
+ * Implementación de la interfaz {@link UserQueryService}.
  */
 @Service
 public class UserQueryServiceImpl implements UserQueryService {
@@ -21,16 +21,16 @@ public class UserQueryServiceImpl implements UserQueryService {
   /**
    * Constructor.
    *
-   * @param userRepository {@link UserRepository} instance.
+   * @param userRepository Instancia de {@link UserRepository}.
    */
   public UserQueryServiceImpl(UserRepository userRepository) {
     this.userRepository = userRepository;
   }
 
   /**
-   * This method is used to handle {@link GetAllUsersQuery} query.
-   * @param query {@link GetAllUsersQuery} instance.
-   * @return {@link List} of {@link User} instances.
+   * Este método se utiliza para manejar la consulta {@link GetAllUsersQuery}.
+   * @param query Instancia de {@link GetAllUsersQuery}.
+   * @return {@link List} de instancias de {@link User}.
    * @see GetAllUsersQuery
    */
   @Override
@@ -39,9 +39,9 @@ public class UserQueryServiceImpl implements UserQueryService {
   }
 
   /**
-   * This method is used to handle {@link GetUserByIdQuery} query.
-   * @param query {@link GetUserByIdQuery} instance.
-   * @return {@link Optional} of {@link User} instance.
+   * Este método se utiliza para manejar la consulta {@link GetUserByIdQuery}.
+   * @param query Instancia de {@link GetUserByIdQuery}.
+   * @return {@link Optional} de una instancia de {@link User}.
    * @see GetUserByIdQuery
    */
   @Override
@@ -50,9 +50,9 @@ public class UserQueryServiceImpl implements UserQueryService {
   }
 
   /**
-   * This method is used to handle {@link GetUserByUserNameQuery} query.
-   * @param query {@link GetUserByUserNameQuery} instance.
-   * @return {@link Optional} of {@link User} instance.
+   * Este método se utiliza para manejar la consulta {@link GetUserByUserNameQuery}.
+   * @param query Instancia de {@link GetUserByUserNameQuery}.
+   * @return {@link Optional} de una instancia de {@link User}.
    * @see GetUserByUserNameQuery
    */
   @Override

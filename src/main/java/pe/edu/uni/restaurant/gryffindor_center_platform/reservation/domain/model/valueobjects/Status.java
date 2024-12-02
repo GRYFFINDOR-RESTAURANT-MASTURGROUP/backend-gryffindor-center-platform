@@ -4,7 +4,7 @@ package pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.mode
  * Status Enum
  */
 public enum Status {
-    PENDING,
-    ACTIVE,
-    CANCELED
+    PENDIENTE,
+    ACTIVA,
+    CANCELADA
 }

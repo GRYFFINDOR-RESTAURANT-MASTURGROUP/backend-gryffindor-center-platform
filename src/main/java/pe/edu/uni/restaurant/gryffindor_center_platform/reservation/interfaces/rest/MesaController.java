@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "**", methods = {RequestMethod.POST, RequestMethod.GET})
 @RestController
 @RequestMapping(value = "/api/v1/mesas", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Mesas", description = "Mesas Endpoints")
+@Tag(name = "Mesas", description = "Endpoints para el manejo de mesas")
 public class MesaController {
 
     private final MesaCommandService mesaCommandService;
@@ -40,12 +40,12 @@ public class MesaController {
     }
 
     /**
-     * Endpoint to create a new mesa
+     * Endpoint para agregar una mesa.
      *
-     * @param resource the resource containing mesa details
-     * @return the created mesa
+     * @param resource el recurso que contiene los detalles de la mesa.
+     * @return la mesa creada.
      */
-    @PostMapping("/adding-mesas")
+    @PostMapping("/agregar-mesas")
     public ResponseEntity<?> createMesa(@RequestBody CreateMesaResource resource) {
 
         var createMesaCommand = CreateMesaCommandFromResourceAssembler
@@ -54,7 +54,7 @@ public class MesaController {
         var id = this.mesaCommandService.handle(createMesaCommand);
 
         if (id.equals(0L)) {
-            return ResponseEntity.badRequest().body("Failed to create mesa.");
+            return ResponseEntity.badRequest().body("No se pudo crear la mesa.");
         }
 
         var getMesaByIdQuery = new GetMesaByIdQuery(id);
@@ -62,7 +62,7 @@ public class MesaController {
 
         if (optionalMesa.isEmpty()) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Mesa was created but could not be retrieved.");
+                    .body("La mesa fue creada pero no se pudo recuperar.");
         }
 
         var mesaResource = MesaResourceFromEntityAssembler
@@ -72,11 +72,11 @@ public class MesaController {
     }
 
     /**
-     * Endpoint to retrieve all mesas
+     * Endpoint para obtener todas las mesas.
      *
-     * @return a list of mesa resources
+     * @return una lista de recursos de mesas.
      */
-    @GetMapping("/all-mesas")
+    @GetMapping("/todas-las-mesas")
     public ResponseEntity<List<MesaResource>> getAllMesas() {
         var getAllMesasQuery = new GetAllMesasQuery();
         var mesas = this.mesaQueryService.handle(getAllMesasQuery);
@@ -92,6 +92,13 @@ public class MesaController {
         return ResponseEntity.ok(mesaResources);
     }
 
+    /**
+     * Endpoint para actualizar una mesa.
+     *
+     * @param id el ID de la mesa.
+     * @param resource el recurso con los nuevos detalles de la mesa.
+     * @return la mesa actualizada.
+     */
     @PutMapping("/{id}")
     public ResponseEntity<MesaResource> updateMesa(@PathVariable Long id, @RequestBody MesaResource resource) {
         var updateMesaCommand = UpdateMesaCommandFromResourceAssembler.toCommandFromResource(id, resource);
@@ -103,6 +110,12 @@ public class MesaController {
         return ResponseEntity.ok(mesaResource);
     }
 
+    /**
+     * Endpoint para eliminar una mesa.
+     *
+     * @param id el ID de la mesa.
+     * @return una respuesta sin contenido indicando que la operación fue exitosa.
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMesa(@PathVariable Long id) {
         var deleteMesaCommand = new DeleteMesaCommand(id);

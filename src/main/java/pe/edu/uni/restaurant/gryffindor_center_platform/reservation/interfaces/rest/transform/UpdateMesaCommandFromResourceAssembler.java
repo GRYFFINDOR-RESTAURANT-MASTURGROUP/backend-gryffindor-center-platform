@@ -6,6 +6,6 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.interfaces.r
 public class UpdateMesaCommandFromResourceAssembler {
     public static UpdateMesaCommand toCommandFromResource(Long id, MesaResource resource) {
         return new UpdateMesaCommand(id, resource.cantidadSillas(),
-                resource.estado());
+                resource.estado(), resource.reservacionId());
     }
 }

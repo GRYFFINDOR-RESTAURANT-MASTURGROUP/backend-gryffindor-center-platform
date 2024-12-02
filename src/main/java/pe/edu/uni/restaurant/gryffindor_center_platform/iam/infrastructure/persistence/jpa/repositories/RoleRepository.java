@@ -8,23 +8,23 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.iam.domain.model.valueob
 import java.util.Optional;
 
 /**
- * This interface is responsible for providing the Role entity related operations.
- * It extends the JpaRepository interface.
+ * Esta interfaz es responsable de proporcionar las operaciones relacionadas con la entidad Role.
+ * Extiende la interfaz JpaRepository.
  */
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
   /**
-   * This method is responsible for finding the role by name.
-   * @param name The role name.
-   * @return The role object.
+   * Este método es responsable de encontrar el rol por nombre.
+   * @param name El nombre del rol.
+   * @return El objeto rol.
    */
   Optional<Role> findByName(Roles name);
 
   /**
-   * This method is responsible for checking if the role exists by name.
-   * @param name The role name.
-   * @return True if the role exists, false otherwise.
+   * Este método es responsable de verificar si el rol existe por nombre.
+   * @param name El nombre del rol.
+   * @return Verdadero si el rol existe, falso de lo contrario.
    */
   boolean existsByName(Roles name);
 }

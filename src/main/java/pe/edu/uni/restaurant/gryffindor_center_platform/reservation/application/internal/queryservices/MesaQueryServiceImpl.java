@@ -19,18 +19,30 @@ public class MesaQueryServiceImpl implements MesaQueryService {
         this.mesaRepository = mesaRepository;
     }
 
+    /**
+     * Maneja la consulta de una mesa por su ID.
+     * @param query la consulta que contiene el ID de la mesa.
+     * @return la mesa correspondiente al ID proporcionado.
+     */
     @Override
     public Optional<Mesa> handle(GetMesaByIdQuery query) {
         return this.mesaRepository.findById(query.id());
     }
 
+    /**
+     * Maneja la consulta para obtener todas las mesas.
+     * @param query la consulta para obtener todas las mesas.
+     * @return una lista con todas las mesas.
+     */
     @Override
     public List<Mesa> handle(GetAllMesasQuery query) {
         return this.mesaRepository.findAll();
     }
 
     /**
-     * Get Mesa By NombreCompletoUsuario Query Implementation
+     * Implementación de la consulta para obtener una mesa por la cantidad de sillas.
+     * @param query la consulta que contiene la cantidad de sillas.
+     * @return una mesa que tiene la cantidad de sillas especificada.
      */
     @Override
     public Optional<Mesa> handle(GetMesaByCantidadSillas query) {

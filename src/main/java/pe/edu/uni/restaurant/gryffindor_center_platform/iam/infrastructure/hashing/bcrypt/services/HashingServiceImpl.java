@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import pe.edu.uni.restaurant.gryffindor_center_platform.iam.infrastructure.hashing.bcrypt.BCryptHashingService;
 
 /**
- * This class implements the {@link BCryptHashingService} interface.
- * It is used to hash passwords using the BCrypt algorithm.
+ * Esta clase implementa la interfaz {@link BCryptHashingService}.
+ * Se utiliza para hacer hash de contraseñas utilizando el algoritmo BCrypt.
  */
 @Service
 public class HashingServiceImpl implements BCryptHashingService {
@@ -17,9 +17,9 @@ public class HashingServiceImpl implements BCryptHashingService {
   }
 
   /**
-   * Hash a password using the BCrypt algorithm
-   * @param rawPassword the password to hash
-   * @return String the hashed password
+   * Hace un hash de una contraseña utilizando el algoritmo BCrypt.
+   * @param rawPassword la contraseña para hacer el hash
+   * @return String la contraseña con hash
    */
   @Override
   public String encode(CharSequence rawPassword) {
@@ -27,10 +27,10 @@ public class HashingServiceImpl implements BCryptHashingService {
   }
 
   /**
-   * Check if a raw password matches a hashed password
-   * @param rawPassword the raw password
-   * @param encodedPassword the hashed password
-   * @return boolean true if the raw password matches the hashed password, false otherwise
+   * Verifica si una contraseña sin procesar coincide con una contraseña con hash.
+   * @param rawPassword la contraseña sin procesar
+   * @param encodedPassword la contraseña con hash
+   * @return boolean verdadero si la contraseña sin procesar coincide con la contraseña con hash, falso en caso contrario
    */
   @Override
   public boolean matches(CharSequence rawPassword, String encodedPassword) {

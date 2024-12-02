@@ -22,12 +22,12 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.iam.infrastructure.token
 import java.util.List;
 
 /**
- * Web Security Configuration.
+ * Configuración de Seguridad Web.
  * <p>
- * This class is responsible for configuring the web security.
- * It enables the method security and configures the security filter chain.
- * It includes the authentication manager, the authentication provider,
- * the password encoder and the authentication entry point.
+ * Esta clase es responsable de configurar la seguridad web.
+ * Activa la seguridad de los métodos y configura la cadena de filtros de seguridad.
+ * Incluye el gestor de autenticación, el proveedor de autenticación,
+ * el codificador de contraseñas y el punto de entrada de autenticación.
  * </p>
  */
 @Configuration
@@ -41,8 +41,8 @@ public class WebSecurityConfiguration {
   private final AuthenticationEntryPoint unauthorizedRequestHandler;
 
   /**
-   * This method creates the Bearer Authorization Request Filter.
-   * @return The Bearer Authorization Request Filter
+   * Este método crea el filtro de autorización con token Bearer.
+   * @return El filtro de autorización con token Bearer
    */
   @Bean
   public BearerAuthorizationRequestFilter authorizationRequestFilter() {
@@ -50,19 +50,20 @@ public class WebSecurityConfiguration {
   }
 
   /**
-   * This method creates the authentication manager.
-   * @param authenticationConfiguration The authentication configuration
-   * @return The authentication manager
+   * Este método crea el gestor de autenticación.
+   * @param authenticationConfiguration La configuración de autenticación
+   * @return El gestor de autenticación
+   * @throws Exception si ocurre algún error en la configuración
    */
   @Bean
   public AuthenticationManager authenticationManager(
-      AuthenticationConfiguration authenticationConfiguration) throws Exception {
+          AuthenticationConfiguration authenticationConfiguration) throws Exception {
     return authenticationConfiguration.getAuthenticationManager();
   }
 
   /**
-   * This method creates the authentication provider.
-   * @return The authentication provider
+   * Este método crea el proveedor de autenticación.
+   * @return El proveedor de autenticación
    */
   @Bean
   public DaoAuthenticationProvider authenticationProvider() {
@@ -73,8 +74,8 @@ public class WebSecurityConfiguration {
   }
 
   /**
-   * This method creates the password encoder.
-   * @return The password encoder
+   * Este método crea el codificador de contraseñas.
+   * @return El codificador de contraseñas
    */
   @Bean
   public PasswordEncoder passwordEncoder() {
@@ -82,47 +83,54 @@ public class WebSecurityConfiguration {
   }
 
   /**
-   * This method creates the security filter chain.
-   * It also configures the http security.
+   * Este método crea la cadena de filtros de seguridad.
+   * También configura la seguridad HTTP.
    *
-   * @param http The http security
-   * @return The security filter chain
+   * @param http La seguridad HTTP
+   * @return La cadena de filtros de seguridad
+   * @throws Exception si ocurre algún error en la configuración
    */
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.cors(corsConfigurer -> corsConfigurer.configurationSource( request -> {
+    // Configura CORS (Cross-Origin Resource Sharing)
+    http.cors(corsConfigurer -> corsConfigurer.configurationSource(request -> {
       var cors = new CorsConfiguration();
       cors.setAllowedOrigins(List.of("*"));
       cors.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE"));
       cors.setAllowedHeaders(List.of("*"));
       return cors;
-    } ));
+    }));
+
+    // Configura CSRF, manejo de excepciones y autenticación sin estado
     http.csrf(csrfConfigurer -> csrfConfigurer.disable())
-        .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(unauthorizedRequestHandler))
-        .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(
-            authorizeRequests -> authorizeRequests.requestMatchers(
-                "/api/v1/authentication/**", "/v3/api-docs/**", "/swagger-ui.html",
-                "/swagger-ui/**", "/swagger-resources/**", "/webjars/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated());
+            .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(unauthorizedRequestHandler))
+            .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(
+                    authorizeRequests -> authorizeRequests.requestMatchers(
+                                    "/api/v1/autenticacion/**", "/v3/api-docs/**", "/swagger-ui.html",
+                                    "/swagger-ui/**", "/swagger-resources/**", "/webjars/**")
+                            .permitAll()  // Permitir todas las solicitudes a las rutas especificadas
+                            .anyRequest()
+                            .authenticated());  // Requiere autenticación para cualquier otra solicitud
+
+    // Añade el proveedor de autenticación y el filtro de autorización
     http.authenticationProvider(authenticationProvider());
     http.addFilterBefore(authorizationRequestFilter(), UsernamePasswordAuthenticationFilter.class);
+
     return http.build();
   }
 
   /**
-   * This is the constructor of the class.
-   * @param userDetailsService The user details service
-   * @param tokenService The token service
-   * @param hashingService The hashing service
-   * @param authenticationEntryPoint The authentication entry point
+   * Constructor de la clase.
+   * @param userDetailsService El servicio de detalles del usuario
+   * @param tokenService El servicio de token
+   * @param hashingService El servicio de hashing
+   * @param authenticationEntryPoint El punto de entrada para solicitudes no autorizadas
    */
   public WebSecurityConfiguration(
-      @Qualifier("defaultUserDetailsService") UserDetailsService userDetailsService,
-      BearerTokenService tokenService, BCryptHashingService hashingService,
-      AuthenticationEntryPoint authenticationEntryPoint) {
+          @Qualifier("defaultUserDetailsService") UserDetailsService userDetailsService,
+          BearerTokenService tokenService, BCryptHashingService hashingService,
+          AuthenticationEntryPoint authenticationEntryPoint) {
 
     this.userDetailsService = userDetailsService;
     this.tokenService = tokenService;

@@ -9,7 +9,6 @@ import java.util.Date;
 
 public record ReservationResource(
         Long id,
-        Long reservedId,
         Date fechaReserva,
         Time horaReserva,
         Integer customerQuantity,

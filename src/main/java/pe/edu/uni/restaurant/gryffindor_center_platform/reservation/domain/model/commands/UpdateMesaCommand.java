@@ -2,5 +2,6 @@ package pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.mode
 
 public record UpdateMesaCommand(Long id,
                                 Integer cantidadSillas,
-                                boolean estado) {
+                                boolean estado,
+                                Long reservacionId) {
 }

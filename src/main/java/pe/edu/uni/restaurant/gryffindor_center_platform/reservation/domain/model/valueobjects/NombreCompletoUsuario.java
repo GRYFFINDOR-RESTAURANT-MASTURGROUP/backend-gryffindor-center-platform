@@ -3,7 +3,7 @@ package pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.mode
 public record NombreCompletoUsuario(String nombreCompletoUsuario) {
     public NombreCompletoUsuario {
         if (nombreCompletoUsuario == null) {
-            throw new IllegalArgumentException("Nombre completo del usuario cannot be null");
+            throw new IllegalArgumentException("Nombre completo del usuario no puede ser vacío");
         }
     }
 }

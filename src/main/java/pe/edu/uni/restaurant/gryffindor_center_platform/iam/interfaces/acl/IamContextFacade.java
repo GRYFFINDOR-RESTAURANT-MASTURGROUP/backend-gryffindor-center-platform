@@ -2,14 +2,12 @@ package pe.edu.uni.restaurant.gryffindor_center_platform.iam.interfaces.acl;
 
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
-import pe.edu.uni.restaurant.gryffindor_center_platform.iam.domain.model.aggregates.User;
 import pe.edu.uni.restaurant.gryffindor_center_platform.iam.domain.model.commands.SignUpCommand;
 import pe.edu.uni.restaurant.gryffindor_center_platform.iam.domain.model.entities.Role;
 import pe.edu.uni.restaurant.gryffindor_center_platform.iam.domain.model.queries.GetUserByIdQuery;
 import pe.edu.uni.restaurant.gryffindor_center_platform.iam.domain.model.queries.GetUserByUserNameQuery;
 import pe.edu.uni.restaurant.gryffindor_center_platform.iam.domain.services.UserCommandService;
 import pe.edu.uni.restaurant.gryffindor_center_platform.iam.domain.services.UserQueryService;
-import pe.edu.uni.restaurant.gryffindor_center_platform.iam.infrastructure.persistence.jpa.repositories.UserRepository;
 import pe.edu.uni.restaurant.gryffindor_center_platform.iam.interfaces.rest.resources.UserResource;
 import pe.edu.uni.restaurant.gryffindor_center_platform.iam.interfaces.rest.transform.UserResourceFromEntityAssembler;
 
@@ -21,10 +19,9 @@ import java.util.UUID;
 /**
  * IamContextFacade
  * <p>
- *     This class is a facade for the IAM context. It provides a simple interface for other
- *     bounded contexts to interact with the
- *     IAM context.
- *     This class is a part of the ACL layer.
+ *     Esta clase es una fachada para el contexto IAM. Proporciona una interfaz simple para que otros
+ *     contextos limitados interactúen con el contexto IAM.
+ *     Esta clase es parte de la capa ACL.
  * </p>
  *
  */
@@ -34,37 +31,37 @@ public class IamContextFacade {
   private final UserQueryService userQueryService;
 
   public IamContextFacade(UserCommandService userCommandService,
-      UserQueryService userQueryService) {
+                          UserQueryService userQueryService) {
     this.userCommandService = userCommandService;
     this.userQueryService = userQueryService;
   }
 
   /**
-   * Creates a user with the given username and password.
-   * @param userName The username of the user.
-   * @param password The password of the user.
-   * @return The id of the created user.
+   * Crea un usuario con el nombre de usuario y la contraseña dados.
+   * @param userName El nombre de usuario del usuario.
+   * @param password La contraseña del usuario.
+   * @return El id del usuario creado.
    */
-  public Long createUser(String userName, /*String dni,*/ String password) {
-    var signUpCommand = new SignUpCommand(userName, /*dni,*/ password, List.of(Role.getDefaultRole()));
+  public Long createUser(String userName, String password) {
+    var signUpCommand = new SignUpCommand(userName, password, List.of(Role.getDefaultRole()));
     var result = userCommandService.handle(signUpCommand);
     if (result.isEmpty()) return 0L;
     return result.get().getId();
   }
 
   /**
-   * Creates a user with the given username, password and roles.
-   * @param userName The username of the user.
-   * @param password The password of the user.
-   * @param roleNames The names of the roles of the user. When a role does not exist,
-   *                  it is ignored.
-   * @return The id of the created user.
+   * Crea un usuario con el nombre de usuario, la contraseña y los roles dados.
+   * @param userName El nombre de usuario del usuario.
+   * @param password La contraseña del usuario.
+   * @param roleNames Los nombres de los roles del usuario. Cuando un rol no existe,
+   *                  se ignora.
+   * @return El id del usuario creado.
    */
-  public Long createUser(String userName, /*String dni,*/ String password, List<String> roleNames) {
+  public Long createUser(String userName, String password, List<String> roleNames) {
     var roles = roleNames != null
-        ? roleNames.stream().map(Role::toRoleFromName).toList()
-        : new ArrayList<Role>();
-    var signUpCommand = new SignUpCommand(userName, /*dni,*/ password, roles);
+            ? roleNames.stream().map(Role::toRoleFromName).toList()
+            : new ArrayList<Role>();
+    var signUpCommand = new SignUpCommand(userName, password, roles);
     var result = userCommandService.handle(signUpCommand);
     if (result.isEmpty())
       return 0L;
@@ -72,9 +69,9 @@ public class IamContextFacade {
   }
 
   /**
-   * Fetches the id of the user with the given username.
-   * @param userName The username of the user.
-   * @return The id of the user.
+   * Obtiene el id del usuario con el nombre de usuario dado.
+   * @param userName El nombre de usuario del usuario.
+   * @return El id del usuario.
    */
   public Long fetchUserIdByUsername(String userName) {
     var getUserByUsernameQuery = new GetUserByUserNameQuery(userName);
@@ -85,9 +82,9 @@ public class IamContextFacade {
   }
 
   /**
-   * Fetches the username of the user with the given id.
-   * @param userId The id of the user.
-   * @return The username of the user.
+   * Obtiene el nombre de usuario del usuario con el id dado.
+   * @param userId El id del usuario.
+   * @return El nombre de usuario del usuario.
    */
   public String fetchUsernameByUserId(Long userId) {
     var getUserByIdQuery = new GetUserByIdQuery(userId);
@@ -97,6 +94,11 @@ public class IamContextFacade {
     return result.get().getUserName();
   }
 
+  /**
+   * Obtiene un recurso de usuario a partir del id del usuario.
+   * @param userId El id del usuario.
+   * @return Un Optional con el recurso de usuario.
+   */
   public Optional<UserResource> fetchUserById(Long userId){
     var getUserByIdQuery = new GetUserByIdQuery(userId);
     var result = userQueryService.handle(getUserByIdQuery);

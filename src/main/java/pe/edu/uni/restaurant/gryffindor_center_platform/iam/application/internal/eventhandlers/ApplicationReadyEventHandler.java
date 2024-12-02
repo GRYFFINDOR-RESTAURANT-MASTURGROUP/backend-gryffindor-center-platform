@@ -11,8 +11,8 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.iam.domain.services.Role
 import java.sql.Timestamp;
 
 /**
- * ApplicationReadyEventHandler class
- * This class is used to handle the ApplicationReadyEvent
+ * Clase ApplicationReadyEventHandler
+ * Esta clase se utiliza para manejar el evento ApplicationReadyEvent
  */
 @Service
 public class ApplicationReadyEventHandler {
@@ -25,19 +25,19 @@ public class ApplicationReadyEventHandler {
   }
 
   /**
-   * Handle the ApplicationReadyEvent
-   * This method is used to seed the roles
-   * @param event the ApplicationReadyEvent the event to handle
+   * Maneja el evento ApplicationReadyEvent
+   * Este método se utiliza para inicializar los roles si es necesario
+   * @param event el ApplicationReadyEvent, el evento a manejar
    */
   @EventListener
   public void on(ApplicationReadyEvent event) {
     var applicationName = event.getApplicationContext().getId();
-    LOGGER.info("Starting to verify if roles seeding is needed for {} at {}",
+    LOGGER.info("Iniciando la verificación de inicialización de roles para {} en {}",
         applicationName, currentTimestamp());
 
     var seedRolesCommand = new SeedRolesCommand();
     roleCommandService.handle(seedRolesCommand);
-    LOGGER.info("Roles seeding verification finished for {} at {}",
+    LOGGER.info("Verificación de inicialización de roles finalizada para {} en {}",
         applicationName, currentTimestamp());
   }
 

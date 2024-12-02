@@ -5,6 +5,6 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.interfaces.r
 
 public class MesaResourceFromEntityAssembler {
     public static MesaResource toResourceFromEntity(Mesa entity){
-        return new MesaResource(entity.getCantidadSillas(), entity.isEstado());
+        return new MesaResource(entity.getCantidadSillas(), entity.isEstado(), entity.getReservacionId());
     }
 }

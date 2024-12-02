@@ -17,38 +17,38 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.iam.infrastructure.token
 import java.io.IOException;
 
 /**
- * Bearer Authorization Request Filter.
+ * Filtro de solicitud de autorización Bearer.
  * <p>
- * This class is responsible for filtering requests and setting the user authentication.
- * It extends the OncePerRequestFilter class.
+ * Esta clase es responsable de filtrar las solicitudes y establecer la autenticación del usuario.
+ * Extiende la clase OncePerRequestFilter.
  * </p>
  * @see OncePerRequestFilter
  */
 public class BearerAuthorizationRequestFilter extends OncePerRequestFilter {
 
   private static final Logger LOGGER
-      = LoggerFactory.getLogger(BearerAuthorizationRequestFilter.class);
+          = LoggerFactory.getLogger(BearerAuthorizationRequestFilter.class);
   private final BearerTokenService tokenService;
 
   @Qualifier("defaultUserDetailsService")
   private final UserDetailsService userDetailsService;
 
   public BearerAuthorizationRequestFilter(BearerTokenService tokenService,
-      UserDetailsService userDetailsService) {
+                                          UserDetailsService userDetailsService) {
     this.tokenService = tokenService;
     this.userDetailsService = userDetailsService;
   }
 
   /**
-   * This method is responsible for filtering requests and setting the user authentication.
-   * @param request The request object.
-   * @param response The response object.
-   * @param filterChain The filter chain object.
+   * Este método es responsable de filtrar las solicitudes y establecer la autenticación del usuario.
+   * @param request El objeto de la solicitud.
+   * @param response El objeto de la respuesta.
+   * @param filterChain El objeto de la cadena de filtros.
    */
   @Override
   protected void doFilterInternal(@NonNull HttpServletRequest request,
-      @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
-      throws ServletException, IOException {
+                                  @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
+          throws ServletException, IOException {
 
     try {
       String token = tokenService.getBearerTokenFrom(request);
@@ -57,15 +57,15 @@ public class BearerAuthorizationRequestFilter extends OncePerRequestFilter {
         String username = tokenService.getUserNameFromToken(token);
         var userDetails = userDetailsService.loadUserByUsername(username);
         SecurityContextHolder.getContext()
-            .setAuthentication(
-                UsernamePasswordAuthenticationTokenBuilder.build(userDetails, request));
+                .setAuthentication(
+                        UsernamePasswordAuthenticationTokenBuilder.build(userDetails, request));
       }
       else {
-        LOGGER.info("Token is not valid");
+        LOGGER.info("El token no es válido");
       }
 
     } catch (Exception e) {
-      LOGGER.error("Cannot set user authentication: {}", e.getMessage());
+      LOGGER.error("No se puede establecer la autenticación del usuario: {}", e.getMessage());
     }
     filterChain.doFilter(request, response);
   }

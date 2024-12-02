@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * TestingUser aggregate root
- * This class represents the aggregate root for the TestingUser entity.
+ * Esta clase representa la entidad User.
  *
  * @see AuditableAbstractAggregateRoot
  */
@@ -22,9 +21,6 @@ import java.util.Set;
 @Setter
 @Entity
 public class User extends AuditableAbstractAggregateRoot<User> {
-
-  /*@OneToOne(mappedBy ="user",cascade = CascadeType.ALL)
-  private Profile profile;*/
 
   /**
    * Nombre de usuario
@@ -34,12 +30,6 @@ public class User extends AuditableAbstractAggregateRoot<User> {
   @Column(unique = true)
   private String userName;
 
-  /*
-  @NotBlank
-  @Size(min = 8, max = 9)
-  @Column(unique = true)
-  private String dni;*/
-
   /**
    * Contraseña del usuario
    */
@@ -47,31 +37,53 @@ public class User extends AuditableAbstractAggregateRoot<User> {
   @Size(max = 120)
   private String password;
 
+  /**
+   * Roles asignados al usuario.
+   * Relación muchos a muchos con la entidad Role.
+   */
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinTable(	name = "user_roles",
       joinColumns = @JoinColumn(name = "user_id"),
       inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles;
 
+  /**
+   * Constructor por defecto.
+   * Inicializa el conjunto de roles.
+   */
   public User() {
     this.roles = new HashSet<>();
   }
-  public User(String userName, /*String dni,*/ String password) {
+
+  /**
+   * Constructor con parámetros básicos.
+   *
+   * @param userName El nombre de usuario.
+   * @param password La contraseña del usuario.
+   */
+  public User(String userName, String password) {
     this.userName = userName;
-    /*this.dni = dni;*/
     this.password = password;
     this.roles = new HashSet<>();
   }
 
-  public User(String userName, /*String dni,*/ String password, List<Role> roles) {
-    this(userName, /*dni,*/ password);
+  /**
+   * Constructor con roles.
+   *
+   * @param userName El nombre de usuario.
+   * @param password La contraseña del usuario.
+   * @param roles Lista de roles asignados al usuario.
+   */
+  public User(String userName, String password, List<Role> roles) {
+    this(userName, password);
     addRoles(roles);
   }
 
   /**
-   * Add a role to the user
-   * @param role the role to add
-   * @return the user with the added role
+   * Agregar un rol al usuario.
+   *
+   * @param role El rol a agregar.
+   * @return El usuario con el rol añadido.
    */
   public User addRole(Role role) {
     this.roles.add(role);
@@ -79,9 +91,10 @@ public class User extends AuditableAbstractAggregateRoot<User> {
   }
 
   /**
-   * Add a list of roles to the user
-   * @param roles the list of roles to add
-   * @return the user with the added roles
+   * Agregar una lista de roles al usuario.
+   *
+   * @param roles La lista de roles a agregar.
+   * @return El usuario con los roles añadidos.
    */
   public User addRoles(List<Role> roles) {
     var validatedRoleSet = Role.validateRoleSet(roles);

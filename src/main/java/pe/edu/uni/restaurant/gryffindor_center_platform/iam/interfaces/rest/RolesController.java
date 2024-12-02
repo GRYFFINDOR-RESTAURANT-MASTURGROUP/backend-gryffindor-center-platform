@@ -14,12 +14,12 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.iam.interfaces.rest.tran
 import java.util.List;
 
 /**
- *  Roles Controller
- *  This controller is responsible for handling all the requests related to roles
+ *  Controlador de Roles
+ *  Este controlador es responsable de manejar todas las solicitudes relacionadas con los roles.
  */
 @RestController
 @RequestMapping(value = "/ap/v1/roles", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Roles", description = "Role Management Endpoints")
+@Tag(name = "Roles", description = "Endpoint de los tipos de rol existentes")
 public class RolesController {
 
   private final RoleQueryService roleQueryService;
@@ -29,8 +29,8 @@ public class RolesController {
   }
 
   /**
-   * Get all roles
-   * @return List of role resources
+   * Obtener todos los roles
+   * @return Lista de recursos de roles
    * @see RoleResource
    */
   @GetMapping

@@ -7,7 +7,7 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model
 import java.sql.Time;
 import java.util.Date;
 
-public record UpdateReservationCommand(Long id, Long reservedId,
+public record UpdateReservationCommand(Long id,
                                        Date fechaReserva,
                                        Time horaReserva,
                                        Integer customerQuantity,

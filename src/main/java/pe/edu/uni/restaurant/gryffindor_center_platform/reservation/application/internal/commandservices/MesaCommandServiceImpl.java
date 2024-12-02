@@ -1,6 +1,5 @@
 package pe.edu.uni.restaurant.gryffindor_center_platform.reservation.application.internal.commandservices;
 
-
 import org.springframework.stereotype.Service;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.aggregates.Mesa;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model.commands.CreateMesaCommand;
@@ -26,7 +25,7 @@ public class MesaCommandServiceImpl implements MesaCommandService {
         try {
             this.mesaRepository.save(mesa);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Error while saving mesa: " + e.getMessage());
+            throw new IllegalArgumentException("Error al guardar mesas: " + e.getMessage());
         }
         return mesa.getId();
     }
@@ -35,35 +34,35 @@ public class MesaCommandServiceImpl implements MesaCommandService {
     public Optional<Mesa> handle(UpdateMesaCommand command) {
         var id = command.id();
 
-        // If the mesa does not exist, throw an exception
+        // Si la mesa no existe al querer actualizar, se lanza un mensaje de error
         if (!this.mesaRepository.existsById(id)) {
-            throw new IllegalArgumentException("Mesa with id " + id + " does not exist");
+            throw new IllegalArgumentException("Mesa con id " + id + " no existe");
         }
 
         var mesaToUpdate = this.mesaRepository.findById(id).get();
         mesaToUpdate.updateInformation(command.cantidadSillas(),
-                command.estado());
+                command.estado(), command.reservacionId());
 
         try {
             var updatedMesa = this.mesaRepository.save(mesaToUpdate);
             return Optional.of(updatedMesa);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Error while updating mesa: " + e.getMessage());
+            throw new IllegalArgumentException("Error al actualizar la información de la mesa: " + e.getMessage());
         }
     }
 
     @Override
     public void handle(DeleteMesaCommand command) {
-        // If the mesa does not exist, throw an exception
+        // Si la mesa no existe al querer eliminar, se lanza un mensaje de error
         if (!this.mesaRepository.existsById(command.id())) {
-            throw new IllegalArgumentException("Mesa with id " + command.id() + " does not exist");
+            throw new IllegalArgumentException("Mesa con id " + command.id() + " no existe");
         }
 
-        // Try to delete the mesa, if an error occurs, throw an exception
+        // Se intenta eliminar la mesa y si ocurre un error en el proceso, se lanza un mensaje de error
         try {
             this.mesaRepository.deleteById(command.id());
         } catch (Exception e) {
-            throw new IllegalArgumentException("Error while deleting mesa: " + e.getMessage());
+            throw new IllegalArgumentException("Error al eliminar la mesa: " + e.getMessage());
         }
     }
 }

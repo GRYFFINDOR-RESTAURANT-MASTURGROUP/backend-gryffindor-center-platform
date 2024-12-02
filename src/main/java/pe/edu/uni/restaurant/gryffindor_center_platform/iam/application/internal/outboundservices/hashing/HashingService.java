@@ -1,22 +1,22 @@
 package pe.edu.uni.restaurant.gryffindor_center_platform.iam.application.internal.outboundservices.hashing;
 
 /**
- * HashingService interface
- * This interface is used to encode and match passwords
+ * Interfaz HashingService
+ * Esta interfaz se utiliza para codificar y comparar contraseñas
  */
 public interface HashingService {
   /**
-   * Encode a password
-   * @param rawPassword the password to encode
-   * @return String the encoded password
+   * Codifica una contraseña
+   * @param rawPassword la contraseña a codificar
+   * @return String la contraseña codificada
    */
   String encode(CharSequence rawPassword);
 
   /**
-   * Match a raw password with an encoded password
-   * @param rawPassword the raw password
-   * @param encodedPassword the encoded password
-   * @return boolean true if the raw password matches the encoded password, false otherwise
+   * Compara una contraseña sin codificar con una contraseña codificada
+   * @param rawPassword la contraseña sin codificar
+   * @param encodedPassword la contraseña codificada
+   * @return boolean true si la contraseña sin codificar coincide con la codificada, false en caso contrario
    */
   boolean matches(CharSequence rawPassword, String encodedPassword);
 }

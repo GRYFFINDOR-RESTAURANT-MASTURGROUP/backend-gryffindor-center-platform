@@ -26,31 +26,22 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 public class Reservation extends AuditableAbstractAggregateRoot<Reservation> {
-
     /**
-     * Reserved Id that must be greater than zero
-     */
-    @NotNull
-    @Min(1)
-    @Column(name = "reserved_id")
-    private Long reservedId;
-
-    /**
-     *
+     * Fecha para la reservación
      */
     @NotNull
     @Column(name = "fecha_reserva", nullable = false)
     private Date fechaReserva;
 
     /**
-     *
+     * Hora exacta para la reservación
      */
     @NotNull
     @Column(name = "hora_reserva", nullable = false)
     private Time horaReserva;
 
     /**
-     *
+     * Cantidad de personas
      */
     @NotNull
     @Min(1)
@@ -59,7 +50,7 @@ public class Reservation extends AuditableAbstractAggregateRoot<Reservation> {
     private Integer customerQuantity;
 
     /**
-     *
+     * Estado de la reserva ( 0: Pendiente; 1: Activa; 2: Cancelada )
      */
     @NotNull
     @Column(name = "status")
@@ -89,7 +80,6 @@ public class Reservation extends AuditableAbstractAggregateRoot<Reservation> {
      *
      */
     public Reservation(CreateReservationCommand command){
-        this.reservedId = command.reservedId();
         this.fechaReserva = command.fechaReserva();
         this.horaReserva = command.horaReserva();
         this.customerQuantity = command.customerQuantity();
@@ -98,14 +88,12 @@ public class Reservation extends AuditableAbstractAggregateRoot<Reservation> {
         this.correoUsuario = new CorreoUsuario(command.correoUsuario());
     }
 
-    public void updateInformation(Long reservedId,
-                                  Date fechaReserva,
+    public void updateInformation(Date fechaReserva,
                                   Time horaReserva,
                                   int customerQuantity,
                                   Status status,
                                   NombreCompletoUsuario nombreCompletoUsuario,
                                   CorreoUsuario correoUsuario) {
-        this.reservedId = reservedId;
         this.fechaReserva = fechaReserva;
         this.horaReserva = horaReserva;
         this.customerQuantity = customerQuantity;

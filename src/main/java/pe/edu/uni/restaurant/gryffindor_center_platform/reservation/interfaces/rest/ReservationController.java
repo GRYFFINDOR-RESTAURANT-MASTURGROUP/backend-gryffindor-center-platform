@@ -20,19 +20,16 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.interfaces.r
 
 import java.sql.Time;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
- * REST controller that provides endpoints for managing reservations.
+ * Controlador REST que proporciona los puntos finales para gestionar las reservaciones.
  */
 @CrossOrigin(origins = "**", methods = {RequestMethod.POST, RequestMethod.GET})
 @RestController
-@RequestMapping(value = "/api/v1/reservations", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Reservations", description = "Reservations Endpoints")
+@RequestMapping(value = "/api/v1/reservaciones", produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(name = "Reservaciones", description = "Endpoint para el manejo de reservaciones")
 public class ReservationController {
 
     private final ReservationCommandService reservationCommandService;
@@ -49,12 +46,12 @@ public class ReservationController {
     }
 
     /**
-     * Endpoint to create a new reservation
+     * Endpoint para crear una nueva reservación.
      *
-     * @param resource the resource containing reservation details
-     * @return the created reservation
+     * @param resource el recurso que contiene los detalles de la reservación
+     * @return la reservación creada
      */
-    @PostMapping("/adding-reservations")
+    @PostMapping("/agregar-reservaciones")
     public ResponseEntity<?> createReservation(@RequestBody CreateReservationResource resource) {
 
         String userNameFromUser = resource.nombreCompletoUsuario();
@@ -65,7 +62,7 @@ public class ReservationController {
                             "encuentra registrado");
         }
 
-        // Validate horaReserva format
+        // Validar el formato de horaReserva
         if (!isValidTime(resource.horaReserva())) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                     .body("Hora de Reserva invalida: coloque el formato adecuado " +
@@ -78,7 +75,7 @@ public class ReservationController {
         var id = this.reservationCommandService.handle(createReservationCommand);
 
         if (id.equals(0L)) {
-            return ResponseEntity.badRequest().body("Failed to create reservation.");
+            return ResponseEntity.badRequest().body("Error al crear la reservación.");
         }
 
         var getReservationByIdQuery = new GetReservationByIdQuery(id);
@@ -86,7 +83,7 @@ public class ReservationController {
 
         if (optionalReservation.isEmpty()) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Reservation was created but could not be retrieved.");
+                    .body("La reservación fue creada pero no se pudo recuperar.");
         }
 
         var reservationResource = ReservationResourceFromEntityAssembler
@@ -96,11 +93,11 @@ public class ReservationController {
     }
 
     /**
-     * Endpoint to retrieve all reservations
+     * Endpoint para obtener todas las reservaciones.
      *
-     * @return a list of reservation resources
+     * @return una lista de recursos de reservaciones
      */
-    @GetMapping("/all-reservations")
+    @GetMapping("/todas-las-reservaciones")
     public ResponseEntity<List<ReservationResource>> getAllReservations() {
         var getAllReservationQuery = new GetAllReservationQuery();
         var reservations = this.reservationQueryService.handle(getAllReservationQuery);
@@ -135,11 +132,11 @@ public class ReservationController {
     }
 
     /**
-     * Valida si la hora de reserva tiene el formato adecuado.
-     * Además definimos el rango de horas permitidas para realizar una reservación
+     * Valida si la hora de la reserva tiene el formato adecuado.
+     * Además definimos el rango de horas permitidas para realizar una reservación.
      *
-     * @param time the Time object to validate
-     * @return true if the time is valid and within the allowed range, false otherwise
+     * @param time el objeto Time a validar
+     * @return verdadero si la hora es válida y está dentro del rango permitido, falso en caso contrario
      */
     private boolean isValidTime(Time time) {
         // Se podrá reservar en el rango de horas de 09:00:00 hasta 21:00:00
@@ -152,4 +149,3 @@ public class ReservationController {
         return !localTime.isBefore(startTime) && !localTime.isAfter(endTime);
     }
 }
-

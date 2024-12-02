@@ -6,6 +6,6 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.iam.interfaces.rest.reso
 public class SignInCommandFromResourceAssembler {
 
   public static SignInCommand toCommandFromResource(SignInResource signInResource) {
-    return new SignInCommand(signInResource.userName(), /*signInResource.dni(),*/ signInResource.password());
+    return new SignInCommand(signInResource.userName(), signInResource.password());
   }
 }

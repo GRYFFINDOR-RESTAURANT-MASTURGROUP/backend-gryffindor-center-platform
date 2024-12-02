@@ -1,29 +1,29 @@
 package pe.edu.uni.restaurant.gryffindor_center_platform.iam.application.internal.outboundservices.tokens;
 
 /**
- * TokenService interface
- * This interface is used to generate and validate tokens
+ * Interfaz TokenService
+ * Esta interfaz se utiliza para generar y validar tokens
  */
 public interface TokenService {
 
   /**
-   * Generate a token for a given username
-   * @param userName the username
-   * @return String the token
+   * Genera un token para un nombre de usuario dado
+   * @param userName el nombre de usuario
+   * @return String el token generado
    */
   String generateToken(String userName);
 
   /**
-   * Extract the username from a token
-   * @param token the token
-   * @return String the userName
+   * Extrae el nombre de usuario de un token
+   * @param token el token
+   * @return String el nombre de usuario
    */
   String getUserNameFromToken(String token);
 
   /**
-   * Validate a token
-   * @param token the token
-   * @return boolean true if the token is valid, false otherwise
+   * Valida un token
+   * @param token el token
+   * @return boolean true si el token es válido, false en caso contrario
    */
   boolean validateToken(String token);
 }

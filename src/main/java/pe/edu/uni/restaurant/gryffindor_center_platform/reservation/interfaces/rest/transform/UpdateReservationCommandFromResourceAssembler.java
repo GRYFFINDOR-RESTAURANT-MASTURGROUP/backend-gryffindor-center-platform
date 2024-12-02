@@ -6,7 +6,7 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.interfaces.r
 
 public class UpdateReservationCommandFromResourceAssembler {
   public static UpdateReservationCommand toCommandFromResource(Long id, ReservationResource resource) {
-    return new UpdateReservationCommand(id, resource.reservedId(),
+    return new UpdateReservationCommand(id,
             resource.fechaReserva(),
             resource.horaReserva(),
             resource.customerQuantity(),

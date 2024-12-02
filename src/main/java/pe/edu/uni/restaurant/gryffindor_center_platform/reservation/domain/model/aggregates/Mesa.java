@@ -32,11 +32,19 @@ public class Mesa extends AuditableAbstractAggregateRoot<Mesa> {
     private Integer cantidadSillas;
 
     /**
-     * Estado ( true: disponible; false: no disponible )
+     * Estado ( true: disponible; false: ocupada )
      */
     @NotNull
     @Column(name = "estado")
     private boolean estado;
+
+    /**
+     * Mesas asignadas para una determinada reservacion
+     */
+    @NotNull
+    @Min(1)
+    @Column(name = "reservacion_id")
+    private Long reservacionId;
 
     /**
      * Constructor
@@ -45,11 +53,14 @@ public class Mesa extends AuditableAbstractAggregateRoot<Mesa> {
     public Mesa(CreateMesaCommand command){
         this.cantidadSillas = command.cantidadSillas();
         this.estado = command.estado();
+        this.reservacionId = command.reservacionId();
     }
 
     public void updateInformation(Integer cantidadSillas,
-                                  boolean estado) {
+                                  boolean estado,
+                                  Long reservacionId) {
         this.cantidadSillas = cantidadSillas;
         this.estado = estado;
+        this.reservacionId = reservacionId;
     }
 }

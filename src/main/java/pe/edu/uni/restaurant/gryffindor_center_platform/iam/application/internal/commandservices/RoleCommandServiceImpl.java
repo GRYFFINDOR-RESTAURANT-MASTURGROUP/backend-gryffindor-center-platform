@@ -10,7 +10,7 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.iam.infrastructure.persi
 import java.util.Arrays;
 
 /**
- * Implementation of {@link RoleCommandService} to handle {@link SeedRolesCommand}
+ * Implementación de {@link RoleCommandService} para manejar {@link SeedRolesCommand}
  */
 @Service
 public class RoleCommandServiceImpl implements RoleCommandService {
@@ -22,7 +22,7 @@ public class RoleCommandServiceImpl implements RoleCommandService {
   }
 
   /**
-   * This method will handle the {@link SeedRolesCommand} and will create the roles if not exists
+   * Este método manejará el {@link SeedRolesCommand} y creará los roles si no existen
    * @param command {@link SeedRolesCommand}
    * @see SeedRolesCommand
    */

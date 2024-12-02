@@ -16,14 +16,14 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.iam.interfaces.rest.tran
 import java.util.List;
 
 /**
- * This class is a REST controller that exposes the users resource.
- * It includes the following operations:
- * - GET /api/v1/users: returns all the users
- * - GET /api/v1/users/{userId}: returns the user with the given id
+ * Esta clase es un controlador REST que expone el recurso de usuarios.
+ * Incluye las siguientes operaciones:
+ * - GET /api/v1/usuarios: devuelve todos los usuarios
+ * - GET /api/v1/usuarios/{userId}: devuelve el usuario con el id proporcionado
  **/
 @RestController
-@RequestMapping(value = "/api/v1/users", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Users", description = "User Management Endpoints")
+@RequestMapping(value = "/api/v1/usuarios", produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(name = "Usuarios", description = "Endpoint de gestión de usuarios")
 public class UsersController {
 
   private final UserQueryService userQueryService;
@@ -33,9 +33,9 @@ public class UsersController {
   }
 
   /**
-   * This method returns all the users.
+   * Este método devuelve todos los usuarios.
    *
-   * @return a list of user resources.
+   * @return una lista de recursos de usuarios.
    * @see UserResource
    */
   @GetMapping
@@ -43,17 +43,17 @@ public class UsersController {
     var getAllUsersQuery = new GetAllUsersQuery();
     var users = userQueryService.handle(getAllUsersQuery);
     var userResources = users.stream()
-        .map(UserResourceFromEntityAssembler::toResourceFromEntity)
-        .toList();
+            .map(UserResourceFromEntityAssembler::toResourceFromEntity)
+            .toList();
     return ResponseEntity.ok(userResources);
   }
 
   /**
-   * This method returns the user with the given id.
+   * Este método devuelve el usuario con el id proporcionado.
    *
-   * @param userId the user id.
-   * @return the user resource with the given id
-   * @throws RuntimeException if the user is not found
+   * @param userId el id del usuario.
+   * @return el recurso de usuario con el id proporcionado.
+   * @throws RuntimeException si no se encuentra el usuario.
    * @see UserResource
    */
   @GetMapping(value = "/{userId}")

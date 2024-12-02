@@ -8,8 +8,7 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.model
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.domain.services.ReservationCommandService;
 import pe.edu.uni.restaurant.gryffindor_center_platform.reservation.infrastructure.persistence.jpa.repositories.ReservationRepository;
 
-import java.sql.Time;
-import java.time.LocalTime;
+
 import java.util.Optional;
 
 @Service
@@ -27,7 +26,7 @@ public class ReservationCommandServiceImpl implements ReservationCommandService 
         try {
             this.reservationRepository.save(reservation);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Error while saving reservation: " + e.getMessage());
+            throw new IllegalArgumentException("Error al guardar la reservación: " + e.getMessage());
         }
         return reservation.getId();
     }
@@ -36,36 +35,36 @@ public class ReservationCommandServiceImpl implements ReservationCommandService 
     public Optional<Reservation> handle(UpdateReservationCommand command) {
         var id = command.id();
 
-        // If the reservation does not exist, throw an exception
+        // Si la reservacion no existe al querer actualizar, se lanza un error
         if (!this.reservationRepository.existsById(id)) {
-            throw new IllegalArgumentException("Reservation with id " + id + " does not exist");
+            throw new IllegalArgumentException("Reservación con id " + id + " no existe");
         }
 
         var reservationToUpdate = this.reservationRepository.findById(id).get();
-        reservationToUpdate.updateInformation(command.reservedId(),
-                command.fechaReserva(), command.horaReserva(), command.customerQuantity(), command.status(),
+        reservationToUpdate.updateInformation(command.fechaReserva(),
+                command.horaReserva(), command.customerQuantity(), command.status(),
                 command.nombreCompletoUsuario(),command.correoUsuario());
 
         try {
             var updatedReservation = this.reservationRepository.save(reservationToUpdate);
             return Optional.of(updatedReservation);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Error while updating reservation: " + e.getMessage());
+            throw new IllegalArgumentException("Error al actualizar la reservación: " + e.getMessage());
         }
     }
 
     @Override
     public void handle(DeleteReservationCommand command) {
-        // If the reservation does not exist, throw an exception
+        // Si la reservacion no existe al querer eliminar, se lanza un error
         if (!this.reservationRepository.existsById(command.id())) {
-            throw new IllegalArgumentException("Reservation with id " + command.id() + " does not exist");
+            throw new IllegalArgumentException("Reservación con id " + command.id() + " no existe");
         }
 
-        // Try to delete the reservation, if an error occurs, throw an exception
+        // Intenta eliminar la reservación, si se produce una excepción, se lanza mensaje de error
         try {
             this.reservationRepository.deleteById(command.id());
         } catch (Exception e) {
-            throw new IllegalArgumentException("Error while deleting reservation: " + e.getMessage());
+            throw new IllegalArgumentException("Error al eliminar la reservación: " + e.getMessage());
         }
     }
 }

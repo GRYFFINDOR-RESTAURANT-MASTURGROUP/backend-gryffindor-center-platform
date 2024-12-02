@@ -60,23 +60,22 @@ public class UserCommandServiceImpl implements UserCommandService {
   }
 
   /**
-   * Handle the sign-up command
+   * Implementación del servicio de comandos para usuarios
    * <p>
-   *     This method handles the {@link SignUpCommand} command and returns the user.
+   *     Esta clase implementa la interfaz {@link UserCommandService} y proporciona la implementación
+   *     para los comandos {@link SignInCommand} y {@link SignUpCommand}.
    * </p>
-   * @param command the sign-up command containing the username and password
-   * @return the created user
    */
   @Override
   public Optional<User> handle(SignUpCommand command) {
     if (userRepository.existsByUserName(command.userName()))
-      throw new RuntimeException("Username already exists");
+      throw new RuntimeException("Este nombre de usuario ya existe");
     var roles = command.roles().stream()
         .map(role ->
             roleRepository.findByName(role.getName())
-                .orElseThrow(() -> new RuntimeException("Role name not found")))
+                .orElseThrow(() -> new RuntimeException("Rol no encontrado")))
         .toList();
-    var user = new User(command.userName(), /*command.dni(),*/ hashingService.encode(command.password()), roles);
+    var user = new User(command.userName(), hashingService.encode(command.password()), roles);
     userRepository.save(user);
     return userRepository.findByUserName(command.userName());
   }

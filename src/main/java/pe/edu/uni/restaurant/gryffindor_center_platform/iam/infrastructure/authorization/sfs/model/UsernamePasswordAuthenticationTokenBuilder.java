@@ -6,26 +6,26 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 /**
- * This class is used to build the UsernamePasswordAuthenticationToken object
- * that is used to authenticate the user.
+ * Esta clase se utiliza para construir el objeto UsernamePasswordAuthenticationToken
+ * que se usa para autenticar al usuario.
  */
 public class UsernamePasswordAuthenticationTokenBuilder {
 
   /**
-   * This method is responsible for building the UsernamePasswordAuthenticationToken object.
-   * @param principal The user details.
-   * @param request The HTTP request.
-   * @return The UsernamePasswordAuthenticationToken object.
+   * Este método es responsable de construir el objeto UsernamePasswordAuthenticationToken.
+   * @param principal Los detalles del usuario.
+   * @param request La solicitud HTTP.
+   * @return El objeto UsernamePasswordAuthenticationToken.
    * @see UsernamePasswordAuthenticationToken
    * @see UserDetails
    */
   public static UsernamePasswordAuthenticationToken build(UserDetails principal,
-      HttpServletRequest request) {
+                                                          HttpServletRequest request) {
 
     var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(principal,
-        null, principal.getAuthorities());
+            null, principal.getAuthorities());
     usernamePasswordAuthenticationToken.setDetails(
-        new WebAuthenticationDetailsSource().buildDetails(request));
+            new WebAuthenticationDetailsSource().buildDetails(request));
     return usernamePasswordAuthenticationToken;
   }
 }

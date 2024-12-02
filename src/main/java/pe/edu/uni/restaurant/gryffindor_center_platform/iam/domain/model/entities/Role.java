@@ -10,10 +10,10 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.iam.domain.model.valueob
 import java.util.List;
 
 /**
- * Role entity
+ * Entidad Role para definir un rol o más.
  * <p>
- *     This entity represents the role of a user in the system.
- *     It is used to define the permissions of a user.
+ *     Esta entidad representa el rol de un usuario en el sistema.
+ *     Se utiliza para definir los permisos de un usuario.
  * </p>
  */
 @Entity
@@ -22,50 +22,60 @@ import java.util.List;
 @AllArgsConstructor
 @With
 public class Role {
+  /**
+   * Identificador único del rol.
+   */
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  /**
+   * Nombre del rol, representado como un valor de un enum {@link Roles}.
+   */
   @Enumerated(EnumType.STRING)
   @Column(length = 20)
   private Roles name;
 
+  /**
+   * Constructor de Role con nombre de rol.
+   * @param name el nombre del rol.
+   */
   public Role(Roles name) {
     this.name = name;
   }
 
   /**
-   * Get the name of the role as a string
-   * @return the name of the role as a string
+   * Obtener el nombre del rol como cadena de caracteres.
+   * @return el nombre del rol como una cadena de caracteres.
    */
   public String getStringName() {
     return name.name();
   }
 
   /**
-   * Get the default role
-   * @return the default role
+   * Obtener el rol predeterminado (ROLE_USER).
+   * @return el rol predeterminado.
    */
   public static Role getDefaultRole() {
     return new Role(Roles.ROLE_USER);
   }
 
   /**
-   * Get the role from its name
-   * @param name the name of the role
-   * @return the role
+   * Obtener el rol a partir de su nombre.
+   * @param name el nombre del rol.
+   * @return el rol correspondiente.
    */
   public static Role toRoleFromName(String name) {
     return new Role(Roles.valueOf(name));
   }
 
   /**
-   * Validate the role set
+   * Validar un conjunto de roles.
    * <p>
-   *     This method validates the role set and returns the default role if the set is empty.
+   *     Este método valida el conjunto de roles y devuelve el rol predeterminado si el conjunto está vacío.
    * </p>
-   * @param roles the role set
-   * @return the role set
+   * @param roles el conjunto de roles.
+   * @return el conjunto de roles validado.
    */
   public static List<Role> validateRoleSet(List<Role> roles) {
     if (roles == null || roles.isEmpty()) {

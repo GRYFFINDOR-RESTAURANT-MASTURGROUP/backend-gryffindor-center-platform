@@ -9,37 +9,38 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * This interface is responsible for providing the TestingUser entity related operations.
- * It extends the JpaRepository interface.
+ * Esta interfaz es responsable de proporcionar las operaciones relacionadas con la entidad TestingUser.
+ * Extiende la interfaz JpaRepository.
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>
-{
+public interface UserRepository extends JpaRepository<User, Long> {
+
   /**
-   * This method is responsible for finding the user by id.
-   * @param id The id of the user.
-   * @return The user object.
+   * Este método es responsable de encontrar al usuario por su id.
+   * @param id El id del usuario.
+   * @return El objeto usuario.
    */
   Optional<User> findUserById(long id);
 
   /**
-   *
+   * Este es un método predeterminado que podría implementarse para buscar por nombre de usuario,
+   * pero en este caso no está implementado.
    */
   default List<User> findByUserNameFromUser(String userName) {
     return null;
   }
 
   /**
-   * This method is responsible for finding the user by username.
-   * @param userName The username.
-   * @return The user object.
+   * Este método es responsable de encontrar al usuario por su nombre de usuario.
+   * @param userName El nombre de usuario.
+   * @return El objeto usuario.
    */
   Optional<User> findByUserName(String userName);
 
   /**
-   * This method is responsible for checking if the user exists by username.
-   * @param userName The username.
-   * @return True if the user exists, false otherwise.
+   * Este método es responsable de verificar si el usuario existe por nombre de usuario.
+   * @param userName El nombre de usuario.
+   * @return Verdadero si el usuario existe, falso en caso contrario.
    */
   boolean existsByUserName(String userName);
 }

@@ -7,7 +7,6 @@ import java.sql.Time;
 import java.util.Date;
 
 public record CreateReservationCommand(
-    Long reservedId,
     Date fechaReserva,
     Time horaReserva,
     Integer customerQuantity,

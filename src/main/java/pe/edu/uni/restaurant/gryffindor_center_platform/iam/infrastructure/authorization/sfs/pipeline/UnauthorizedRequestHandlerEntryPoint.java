@@ -12,11 +12,11 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 /**
- * Unauthorized Request Handler.
+ * Manejador de solicitudes no autorizadas.
  * <p>
- * This class is responsible for handling unauthorized requests.
- * It is used by the Spring Security framework to handle unauthorized requests.
- * It implements the AuthenticationEntryPoint interface.
+ * Esta clase es responsable de manejar las solicitudes no autorizadas.
+ * Es utilizada por el framework de Spring Security para manejar solicitudes no autorizadas.
+ * Implementa la interfaz AuthenticationEntryPoint.
  * </p>
  * @see AuthenticationEntryPoint
  */
@@ -25,19 +25,19 @@ import java.io.IOException;
 public class UnauthorizedRequestHandlerEntryPoint implements AuthenticationEntryPoint {
 
   private static final Logger LOGGER
-      = LoggerFactory.getLogger(UnauthorizedRequestHandlerEntryPoint.class);
+          = LoggerFactory.getLogger(UnauthorizedRequestHandlerEntryPoint.class);
 
   /**
-   * This method is called by the Spring Security framework when an unauthorized request is detected.
-   * @param request The request that caused the exception
-   * @param response The response that will be sent to the client
-   * @param authenticationException The exception that caused the invocation
+   * Este método es llamado por el framework de Spring Security cuando se detecta una solicitud no autorizada.
+   * @param request La solicitud que causó la excepción.
+   * @param response La respuesta que será enviada al cliente.
+   * @param authenticationException La excepción que causó la invocación.
    */
   @Override
   public void commence(HttpServletRequest request, HttpServletResponse response,
-      AuthenticationException authenticationException) throws IOException, ServletException {
+                       AuthenticationException authenticationException) throws IOException, ServletException {
 
-    LOGGER.error("Unauthorized request: {}", authenticationException.getMessage());
-    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized request detected");
+    LOGGER.error("Solicitud no autorizada: {}", authenticationException.getMessage());
+    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Solicitud no autorizada detectada");
   }
 }

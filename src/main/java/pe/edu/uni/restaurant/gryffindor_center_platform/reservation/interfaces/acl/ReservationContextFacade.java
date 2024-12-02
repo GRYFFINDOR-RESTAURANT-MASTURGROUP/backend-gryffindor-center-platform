@@ -22,8 +22,7 @@ public class ReservationContextFacade {
         this.userACL = userACL;
     }
 
-    public Long createReservation(Long reservedId,
-                                  Date fechaReserva,
+    public Long createReservation(Date fechaReserva,
                                   Time horaReserva,
                                   Integer customerQuantity,
                                   Status status,
@@ -35,8 +34,8 @@ public class ReservationContextFacade {
         }
 
         // Crear el comando
-        var createReservationCommand = new CreateReservationCommand(reservedId,
-                fechaReserva, horaReserva, customerQuantity, status,
+        var createReservationCommand = new CreateReservationCommand(fechaReserva,
+                horaReserva, customerQuantity, status,
                 nombreCompletoUsuario, correoUsuario);
 
         // Manejar el comando

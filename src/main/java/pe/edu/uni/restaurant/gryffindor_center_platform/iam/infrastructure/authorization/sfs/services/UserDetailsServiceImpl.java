@@ -8,8 +8,8 @@ import pe.edu.uni.restaurant.gryffindor_center_platform.iam.infrastructure.autho
 import pe.edu.uni.restaurant.gryffindor_center_platform.iam.infrastructure.persistence.jpa.repositories.UserRepository;
 
 /**
- * This class is responsible for providing the user details to the Spring Security framework.
- * It implements the UserDetailsService interface.
+ * Esta clase es responsable de proporcionar los detalles del usuario al framework de Spring Security.
+ * Implementa la interfaz UserDetailsService.
  */
 @Service(value = "defaultUserDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -21,16 +21,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   }
 
   /**
-   * This method is responsible for loading the user details from the database.
-   * @param username The username.
-   * @return The UserDetails object.
-   * @throws UsernameNotFoundException If the user is not found.
+   * Este método es responsable de cargar los detalles del usuario desde la base de datos.
+   * @param username El nombre de usuario.
+   * @return El objeto UserDetails.
+   * @throws UsernameNotFoundException Si el usuario no es encontrado.
    */
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     var user = userRepository.findByUserName(username)
-        .orElseThrow(
-            () -> new UsernameNotFoundException("User not found with username: " + username));
+            .orElseThrow(
+                    () -> new UsernameNotFoundException("Usuario no encontrado con el nombre de usuario: " + username));
     return UserDetailsImpl.build(user);
   }
 }
