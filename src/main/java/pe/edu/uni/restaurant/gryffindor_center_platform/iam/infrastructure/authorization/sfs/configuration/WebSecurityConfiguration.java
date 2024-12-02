@@ -95,9 +95,10 @@ public class WebSecurityConfiguration {
     // Configura CORS (Cross-Origin Resource Sharing)
     http.cors(corsConfigurer -> corsConfigurer.configurationSource(request -> {
       var cors = new CorsConfiguration();
-      cors.setAllowedOrigins(List.of("*"));
-      cors.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE"));
-      cors.setAllowedHeaders(List.of("*"));
+      cors.setAllowedOrigins(List.of("http://localhost:4200/*"));
+      cors.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+      cors.setAllowedHeaders(List.of("Content-Type", "Authorization", "Bearer ${token}"));
+      cors.setExposedHeaders(List.of("Authorization", "Content-Type"));
       return cors;
     }));
 
@@ -107,8 +108,9 @@ public class WebSecurityConfiguration {
             .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(
                     authorizeRequests -> authorizeRequests.requestMatchers(
-                                    "/api/v1/autenticacion/**", "/v3/api-docs/**", "/swagger-ui.html",
-                                    "/swagger-ui/**", "/swagger-resources/**", "/webjars/**")
+                                    "/api/v1/autenticacion/*", "/api/v1/authentication/**","/v3/api-docs/**", "/swagger-ui.html",
+                                    "/swagger-ui/**", "/swagger-resources/**", "/webjars/**",
+                                    "/api/v1/autenticacion/registrarse","/api/v1/autenticacion/iniciar-sesion")
                             .permitAll()  // Permitir todas las solicitudes a las rutas especificadas
                             .anyRequest()
                             .authenticated());  // Requiere autenticación para cualquier otra solicitud
